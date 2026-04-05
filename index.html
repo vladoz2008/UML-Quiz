@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Квиз по UML-диаграммам</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="app">
+        <header class="app-header">
+            <h1 class="app-title">Квиз по UML-диаграммам</h1>
+        </header>
+
+        <main class="app-main">
+            <!-- Экран стартовый -->
+            <section class="card card--centered" id="start-screen">
+                <h2>Готов начать?</h2>
+                <p>
+                    В квизе <strong>15 вопросов</strong> по пяти темам:
+                </p>
+                <ul class="start-list">
+                    <li>Диаграмма классов</li>
+                    <li>Диаграмма компонентов</li>
+                    <li>Диаграмма развёртывания</li>
+                    <li>Диаграмма объектов</li>
+                    <li>Диаграмма пакетов</li>
+                </ul>
+                
+                <button class="btn btn-primary" id="start-btn">Начать квиз</button>
+            </section>
+
+            <!-- Экран вопроса -->
+            <section class="card" id="quiz-screen" hidden>
+                <div class="quiz-header">
+                    <div class="quiz-block" id="block-title"></div>
+                    <div class="quiz-progress">
+                        <span id="question-counter"></span>
+                        <div class="progress-bar">
+                            <div class="progress-bar__fill" id="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-body">
+                    <h2 class="question-text" id="question-text"></h2>
+                    <form class="answers" id="answers-list">
+                        <!-- Варианты ответов будут вставляться JS -->
+                    </form>
+                    <p class="validation-message" id="validation-message" hidden>
+                        Пожалуйста, выбери один из вариантов, прежде чем переходить дальше.
+                    </p>
+                </div>
+
+                <div class="quiz-footer">
+                    <button class="btn btn-secondary" id="prev-btn" type="button">Назад</button>
+                    <button class="btn btn-primary" id="next-btn" type="button">Дальше</button>
+                </div>
+            </section>
+
+            <!-- Экран результата -->
+            <section class="card card--centered" id="result-screen" hidden>
+                <h2>Результаты</h2>
+                <div class="result-score">
+                    <span id="score-percent">0%</span>
+                </div>
+                <p class="result-summary" id="result-summary"></p>
+
+                <div class="result-stats">
+                    <div class="stat">
+                        <span class="stat-label">Всего вопросов</span>
+                        <span class="stat-value" id="total-questions">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Правильных ответов</span>
+                        <span class="stat-value stat-value--correct" id="correct-answers">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Неправильных ответов</span>
+                        <span class="stat-value stat-value--wrong" id="wrong-answers">0</span>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn btn-primary" id="review-btn">Посмотреть разбор</button>
+                    <button class="btn btn-ghost" id="restart-btn">Пройти ещё раз</button>
+                </div>
+            </section>
+
+            <!-- Экран разбора -->
+            <section class="card" id="review-screen" hidden>
+                <div class="quiz-header">
+                    <div class="quiz-block" id="review-block-title"></div>
+                    <div class="quiz-progress">
+                        <span id="review-question-counter"></span>
+                    </div>
+                </div>
+
+                <div class="quiz-body">
+                    <h2 class="question-text" id="review-question-text"></h2>
+                    <ul class="answers answers--review" id="review-answers-list">
+                        <!-- Ответы с подсветкой будут вставляться JS -->
+                    </ul>
+                    <p class="review-note" id="review-note"></p>
+                </div>
+
+                <div class="quiz-footer">
+                    <button class="btn btn-secondary" id="review-prev-btn" type="button">Предыдущий</button>
+                    <button class="btn btn-secondary" id="review-next-btn" type="button">Следующий</button>
+                    <button class="btn btn-ghost" id="back-to-result-btn" type="button">К результатам</button>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

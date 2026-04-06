@@ -219,6 +219,9 @@ const reviewPrevBtn = document.getElementById("review-prev-btn");
 const reviewNextBtn = document.getElementById("review-next-btn");
 const backToResultBtn = document.getElementById("back-to-result-btn");
 
+const attemptsBar = document.getElementById("attempts-bar");
+const attemptsCountEl = document.getElementById("attempts-count");
+
 // Управление этапами (раскладка колонок)
 function setStage(stage) {
     document.body.dataset.stage = stage;
@@ -231,6 +234,20 @@ function updateProgress() {
     const percent = (currentNumber / total) * 100;
     progressFill.style.width = `${percent}%`;
 }
+function updateAttemptsUI() {
+    if (!attemptsBar || !attemptsCountEl) return;
+    attemptsBar.hidden = false;
+    attemptsCountEl.textContent = String(readAttemptsCount());
+}
+
+function countAttemptIfNeeded() {
+    if (hasCountedThisRun) return;
+    const next = readAttemptsCount() + 1;
+    writeAttemptsCount(next);
+    hasCountedThisRun = true;
+    updateAttemptsUI();
+}
+
 
 // Рендер вопроса на экране квиза
 function renderQuestion() {
@@ -312,7 +329,8 @@ function calculateResults() {
 
 function showResults() {
     const { total, correct, wrong, percent } = calculateResults();
-
+    
+    countAttemptIfNeeded();
     scorePercent.textContent = `${percent}%`;
     totalQuestionsEl.textContent = String(total);
     correctAnswersEl.textContent = String(correct);
@@ -377,12 +395,14 @@ function renderReviewQuestion() {
 function resetQuiz() {
     currentQuestionIndex = 0;
     userAnswers = new Array(quizData.length).fill(null);
+    hasCountedThisRun = false;
 }
 
 // Обработчики событий
 startBtn.addEventListener("click", () => {
     resetQuiz();
     setStage("quiz");
+    updateAttemptsUI();
     renderQuestion();
 });
 
@@ -434,10 +454,15 @@ reviewNextBtn.addEventListener("click", () => {
 
 backToResultBtn.addEventListener("click", () => {
     setStage("result");
+    updateAttemptsUI();
 });
 
 // Для уверенности заполняем счётчики по умолчанию и выставляем начальный этап
 document.addEventListener("DOMContentLoaded", () => {
     totalQuestionsEl.textContent = String(quizData.length);
+    if (attemptsCountEl) {
+        // Если ключа нет — показываем 0 (и не создаём его без необходимости)
+        attemptsCountEl.textContent = String(readAttemptsCount());
+    }
     setStage("start");
 });

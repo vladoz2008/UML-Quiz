@@ -47,6 +47,25 @@ body {
     opacity: 0.9;
 }
 
+.completion-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0 auto;
+    padding: 5px 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #e0f2fe;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+}
+
+.completion-counter #completion-count {
+    color: #fff;
+    font-weight: 700;
+}
+
 .app-main {
     flex: 1;
     display: flex;

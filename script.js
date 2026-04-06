@@ -156,6 +156,26 @@ const quizData = [
     },
 ];
 
+// Счётчик прохождений (localStorage)
+const COMPLETION_KEY = "uml_quiz_completions";
+
+function getCompletionCount() {
+    return parseInt(localStorage.getItem(COMPLETION_KEY) || "0", 10);
+}
+
+function incrementCompletionCount() {
+    const count = getCompletionCount() + 1;
+    localStorage.setItem(COMPLETION_KEY, String(count));
+    return count;
+}
+
+function renderCompletionCounter() {
+    const el = document.getElementById("completion-count");
+    if (el) {
+        el.textContent = String(getCompletionCount());
+    }
+}
+
 // Состояние
 let currentQuestionIndex = 0;
 let userAnswers = new Array(quizData.length).fill(null); // индекс выбранного варианта или null
@@ -294,6 +314,8 @@ function showResults() {
     correctAnswersEl.textContent = String(correct);
     wrongAnswersEl.textContent = String(wrong);
 
+    incrementCompletionCount();
+    renderCompletionCounter();
 }
 
 // Рендер вопроса на экране разбора
@@ -415,5 +437,6 @@ backToResultBtn.addEventListener("click", () => {
 // Для уверенности заполняем счётчики по умолчанию и выставляем начальный этап
 document.addEventListener("DOMContentLoaded", () => {
     totalQuestionsEl.textContent = String(quizData.length);
+    renderCompletionCounter();
     setStage("start");
 });

@@ -159,6 +159,30 @@ const quizData = [
 // Состояние
 let currentQuestionIndex = 0;
 let userAnswers = new Array(quizData.length).fill(null); // индекс выбранного варианта или null
+let hasCountedThisRun = false;
+
+// localStorage: количество прохождений (увеличиваем по факту завершения)
+const ATTEMPTS_KEY = "umlQuizAttempts";
+
+function readAttemptsCount() {
+    try {
+        const raw = localStorage.getItem(ATTEMPTS_KEY);
+        const n = raw == null ? 0 : Number(raw);
+        return Number.isFinite(n) && n >= 0 ? Math.floor(n) : 0;
+    } catch {
+        return 0;
+    }
+}
+
+function writeAttemptsCount(value) {
+    try {
+        localStorage.setItem(ATTEMPTS_KEY, String(value));
+    } catch {
+        // Если localStorage недоступен — просто молча пропускаем
+    }
+}
+
+
 
 // Элементы DOM
 const startScreen = document.getElementById("start-screen");
